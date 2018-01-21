@@ -1,21 +1,21 @@
-package main;
+package driver;
 import order.OrderRequestList;
-import theatre.Theatre;
+import theatre.Theater;
 
 //this class is a placeholder for objects Theatre and OrderRequestList
 // this creates the objects
 class ObjectHolderClass {
 	
-	private Theatre theatre = null;
+	private Theater theatre = null;
 	private OrderRequestList orderRequestList = null;
 	
 	public ObjectHolderClass()
 	{
-		theatre = Theatre.getInstance();
+		theatre = Theater.getInstance();
 		orderRequestList = OrderRequestList.getInstance();
 	}
 	
-	public Theatre getTheatre()
+	public Theater getTheatre()
 	{
 		return theatre;
 	}

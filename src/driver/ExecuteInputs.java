@@ -1,4 +1,4 @@
-package main;
+package driver;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -7,11 +7,11 @@ import java.util.Scanner;
 import order.OrderRequest;
 import order.OrderRequestList;
 import theatre.Section;
-import theatre.Theatre;
+import theatre.Theater;
 
 
 class ExecuteInputs{
-	private static Theatre theatre = null;
+	private static Theater theatre = null;
 	private static OrderRequestList obj = null;
 
 public void execute() throws ArrayIndexOutOfBoundsException
@@ -20,13 +20,12 @@ public void execute() throws ArrayIndexOutOfBoundsException
     int row = 0;
     int total_seats = 0;
     
-    //creating and getting the Theatre and OrderRequestList instances
+    //Getting the Theater and OrderRequestList instances
     ObjectHolderClass objHolder = new ObjectHolderClass();
     theatre = objHolder.getTheatre();
     obj =  objHolder.getOrderRequestList();
 
     System.out.println("Please Enter Theatre Layout followed by the customer orders with 'end' on last line to indicate end of input");
-    //reading the theatre section inputs and orders
     	 while(sc.hasNextLine())
     	    {
     	        String line = sc.nextLine();
@@ -36,7 +35,7 @@ public void execute() throws ArrayIndexOutOfBoundsException
     	        		theatre.setTotalSeats(total_seats);
     	        		break;
     	        }
-    	        else if(!line.isEmpty() && line.split(" ")[0].matches("[-+]?\\d*\\.?\\d+") && line.split(" ")[1].matches("[-+]?\\d*\\.?\\d+"))
+    	        else if(!line.isEmpty() && line.split(" ")[0].matches("^[1-9][0-9]*$") && line.split(" ")[1].matches("^[1-9][0-9]*$"))
     	        {
     	          //reading section inputs
     	          row++;
@@ -48,7 +47,8 @@ public void execute() throws ArrayIndexOutOfBoundsException
     	          }
 
     	        }
-    	        else if(!line.isEmpty() && line.split(" ")[1].matches("[-+]?\\d*\\.?\\d+"))
+    	        //using java8 lambda expression .allMatch
+    	        else if(!line.isEmpty() && line.split(" ")[0].chars().allMatch(Character::isLetter) && line.split(" ")[1].matches("^[1-9][0-9]*$"))
     	        {
     	        			//reading orders
     	        	        String[] in = line.split(" ");
@@ -61,6 +61,7 @@ public void execute() throws ArrayIndexOutOfBoundsException
     	        else
     	        {
     	        		//catch exceptions 
+    	        		System.out.println();
     	        		System.out.println("Input format is not correct, Please try again");
     	        		System.exit(0);
     	 

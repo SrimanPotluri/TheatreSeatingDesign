@@ -1,5 +1,6 @@
-package main;
+package driver;
 
+//Driver program 
 
 public class MainClass {
 

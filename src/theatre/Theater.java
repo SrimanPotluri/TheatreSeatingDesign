@@ -7,26 +7,26 @@ import java.util.List;
 //making this class as a Singleton Class, so that we can create only one instance
 // this class creates section and maintains list of sections
 
-public class Theatre{
+public class Theater{
 
 //data members, also includes list of sections
 private int no_of_seats;
 private int seats_unfilled;
 private List<Section> theatre_sections;
-private static Theatre theatre = null;
+private static Theater theatre = null;
 
 //private constructor
-private Theatre()
+private Theater()
 {
   theatre_sections = new ArrayList<Section>();
 }
 
 //static method to get the instance
-public static Theatre getInstance()
+public static Theater getInstance()
 {
   if(theatre==null)
   {
-    theatre = new Theatre();
+    theatre = new Theater();
   }
   return theatre;
 
