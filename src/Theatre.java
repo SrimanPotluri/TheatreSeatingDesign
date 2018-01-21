@@ -15,7 +15,7 @@ private static Theatre theatre = null;
 //private constructor
 private Theatre()
 {
-  theatre_sections = new ArrayList();
+  theatre_sections = new ArrayList<Section>();
 }
 
 //static method to get the instance

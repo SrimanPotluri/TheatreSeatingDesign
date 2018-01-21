@@ -15,9 +15,10 @@ public void execute() throws ArrayIndexOutOfBoundsException
     int row = 0;
     int total_seats = 0;
     
-    //getting the Theatre and OrderRequest instances
-    theatre = Theatre.getInstance();
-    obj =  OrderRequestList.getInstance();
+    //creating and getting the Theatre and OrderRequestList instances
+    ObjectHolderClass objHolder = new ObjectHolderClass();
+    theatre = objHolder.getTheatre();
+    obj =  objHolder.getOrderRequestList();
 
     System.out.println("Please Enter Theatre Layout followed by the customer orders with 'end' on last line to indicate end of input");
     //reading the theatre section inputs and orders

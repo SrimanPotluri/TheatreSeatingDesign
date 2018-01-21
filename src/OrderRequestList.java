@@ -12,7 +12,7 @@ private List<OrderRequest> order_list;
 // private constructor
 private OrderRequestList()
 {
-    order_list = new ArrayList();
+    order_list = new ArrayList<OrderRequest>();
 }
 
 // static method to implement it as a singleton pattern
