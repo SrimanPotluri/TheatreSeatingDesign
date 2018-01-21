@@ -2,14 +2,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
-import java.lang.*;
 
-public class TheatreMain{
+
+class ExecuteProcess{
 	
 	private static Theatre theatre = null;
 	private static OrderRequest obj = null;
 
-public static void main(String args[]) throws ArrayIndexOutOfBoundsException
+public void execute() throws ArrayIndexOutOfBoundsException
 {
     Scanner sc = new Scanner(System.in);
     int row = 0;
@@ -19,6 +19,7 @@ public static void main(String args[]) throws ArrayIndexOutOfBoundsException
     theatre = Theatre.getInstance();
     obj =  OrderRequest.getInstance();
 
+    System.out.println("Please Enter Theatre Layout followed by the customer orders with 'end' on last line to indicate end of input");
     //reading the theatre section inputs and orders
     	 while(sc.hasNextLine())
     	    {
@@ -29,7 +30,7 @@ public static void main(String args[]) throws ArrayIndexOutOfBoundsException
     	        		theatre.setTotalSeats(total_seats);
     	        		break;
     	        }
-    	        else if(!line.isEmpty() && line.split(" ")[0].matches("[-+]?\\d*\\.?\\d+"))
+    	        else if(!line.isEmpty() && line.split(" ")[0].matches("[-+]?\\d*\\.?\\d+") && line.split(" ")[1].matches("[-+]?\\d*\\.?\\d+"))
     	        {
     	          //reading section inputs
     	          row++;
@@ -41,18 +42,27 @@ public static void main(String args[]) throws ArrayIndexOutOfBoundsException
     	          }
 
     	        }
-    	        else if(!line.isEmpty())
+    	        else if(!line.isEmpty() && line.split(" ")[1].matches("[-+]?\\d*\\.?\\d+"))
     	        {
     	        			//reading orders
     	        	        String[] in = line.split(" ");
     	        	        Order order = obj.createOrder(in[0].toString(),Integer.parseInt(in[1].toString()));
     	        }
-    	        else
+    	        else if(line.isEmpty())
     	        {
     	        		//skip
     	        }
+    	        else
+    	        {
+    	        		//catch exceptions 
+    	        		System.out.println("Input format is not correct, Please try again");
+    	        		System.exit(0);
+    	 
+    	        }
     	        
     	    }//end of while
+    	 
+    	 sc.close();
     	 
     	
     	    
@@ -62,7 +72,7 @@ public static void main(String args[]) throws ArrayIndexOutOfBoundsException
 }
 
 //method to process the orders, it is private so that It cannot be called from outside
-private static void processOrders()
+private void processOrders()
 {
 	List<Order> orders = obj.getOrderList();
 	//iterating through the requests and processing them
@@ -173,7 +183,7 @@ private static void processOrders()
 //method to search for other request that needs remaining seats to complement the deficit in the current orderRequest
 //method is private so that It cannot be called from outside
 
-private static int findOtherOrder(int remaining_seats, int currentOrderIndex){
+private int findOtherOrder(int remaining_seats, int currentOrderIndex){
     
 	List<Order> orders = obj.getOrderList();
     int orderNo = -1;
@@ -194,7 +204,7 @@ private static int findOtherOrder(int remaining_seats, int currentOrderIndex){
     return orderNo;
 }
 
-private static int findSectionByAvailableSeats(List<Section> sections ,int availableSeats){
+private int findSectionByAvailableSeats(List<Section> sections ,int availableSeats){
     
 	
     int i = 0;
@@ -240,7 +250,7 @@ private static int findSectionByAvailableSeats(List<Section> sections ,int avail
 }
 
 //method to print all the statuses
-private static void getOrdersStatus()
+private void getOrdersStatus()
 {
 	List<Order> orders = obj.getOrderList();
 	
