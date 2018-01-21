@@ -1,43 +1,75 @@
-import java.util.ArrayList;
-import java.util.List;
-
-//class that is responsible to create and maintain list of orders
-// this is made singleton, since we just want once instance of it
+//class that demonstrates the order
 
 class OrderRequest{
 
-private static OrderRequest orderRequest = null;
-private List<Order> order_list;
+// data members
+private String name;
+private int seats_needed;
+private static int count = 0;
+private int order_id;
+private String status = "";
+private int section_num_allotted;
+private int row_allotted;
 
-// private constructor
-private OrderRequest()
+//default constructor
+public OrderRequest()
 {
-    order_list = new ArrayList();
+   
 }
 
-// static method to implement it as a singleton pattern
-public static OrderRequest getInstance()
+//parameterized constructor
+public OrderRequest(String name, int seats)
 {
-  if(orderRequest==null)
-  {
-    orderRequest = new OrderRequest();
-  }
-  return orderRequest;
+    this.name = name;
+    this.seats_needed = seats;
+    count++;
+    this.order_id = count;
 }
 
-//
-public Order createOrder(String name, int seats)
+//getter for order_id
+public int getId()
 {
-    //creating order and adding it to the list
-    Order order = new Order(name,seats);
-    order_list.add(order);
-    return order;
+    return order_id;
 }
 
-public List<Order> getOrderList()
+public String getStatus()
 {
-	return order_list;
+  return status;
 }
 
+public void setStatus(String status)
+{
+	this.status = status;
+}
+
+public int getSeatsNeeded()
+{
+	return seats_needed;
+}
+
+public String getName()
+{
+	return name;
+}
+
+public int getSectionAllotted()
+{
+	return section_num_allotted;
+}
+
+public void setSectionAllotted(int s)
+{
+	 section_num_allotted = s;
+}
+
+public int getRowAllotted()
+{
+	return row_allotted;
+}
+
+public void setRowAllotted(int r)
+{
+	row_allotted = r;
+}
 
 }

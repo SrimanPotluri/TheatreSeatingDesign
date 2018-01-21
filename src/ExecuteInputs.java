@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Scanner;
 
 
-class ExecuteProcess{
+class ExecuteInputs{
 	
 	private static Theatre theatre = null;
-	private static OrderRequest obj = null;
+	private static OrderRequestList obj = null;
 
 public void execute() throws ArrayIndexOutOfBoundsException
 {
@@ -17,7 +17,7 @@ public void execute() throws ArrayIndexOutOfBoundsException
     
     //getting the Theatre and OrderRequest instances
     theatre = Theatre.getInstance();
-    obj =  OrderRequest.getInstance();
+    obj =  OrderRequestList.getInstance();
 
     System.out.println("Please Enter Theatre Layout followed by the customer orders with 'end' on last line to indicate end of input");
     //reading the theatre section inputs and orders
@@ -46,7 +46,7 @@ public void execute() throws ArrayIndexOutOfBoundsException
     	        {
     	        			//reading orders
     	        	        String[] in = line.split(" ");
-    	        	        Order order = obj.createOrder(in[0].toString(),Integer.parseInt(in[1].toString()));
+    	        	        OrderRequest order = obj.createOrder(in[0].toString(),Integer.parseInt(in[1].toString()));
     	        }
     	        else if(line.isEmpty())
     	        {
@@ -74,11 +74,11 @@ public void execute() throws ArrayIndexOutOfBoundsException
 //method to process the orders, it is private so that It cannot be called from outside
 private void processOrders()
 {
-	List<Order> orders = obj.getOrderList();
+	List<OrderRequest> orders = obj.getOrderList();
 	//iterating through the requests and processing them
 	for(int i=0; i<orders.size(); i++)
 	{
-		Order order = orders.get(i);
+		OrderRequest order = orders.get(i);
 		
 		if(!order.getStatus().isEmpty())
 		{
@@ -121,7 +121,7 @@ private void processOrders()
 	                        order.setStatus(order.getName() + " Row " + order.getRowAllotted() + " Section " + order.getSectionAllotted());
 	                        
 	                        //setting the status of the complement order, since we filled this with remaining seats
-	                        Order order_complement = orders.get(orderNo);
+	                        OrderRequest order_complement = orders.get(orderNo);
 	                        order_complement.setRowAllotted(section.getRowNum());
 	                        order_complement.setSectionAllotted(section.getSectionNum());
 	                        section.setRemainingSeats(section.getRemainingSeats() - order_complement.getSeatsNeeded());
@@ -185,12 +185,12 @@ private void processOrders()
 
 private int findOtherOrder(int remaining_seats, int currentOrderIndex){
     
-	List<Order> orders = obj.getOrderList();
+	List<OrderRequest> orders = obj.getOrderList();
     int orderNo = -1;
 
     for(int i=currentOrderIndex+1 ; i<orders.size() ; i++){
         
-        Order order = orders.get(i);
+        OrderRequest order = orders.get(i);
         
         if(order.getStatus()!=null && order.getSeatsNeeded() == remaining_seats){
             
@@ -252,7 +252,7 @@ private int findSectionByAvailableSeats(List<Section> sections ,int availableSea
 //method to print all the statuses
 private void getOrdersStatus()
 {
-	List<Order> orders = obj.getOrderList();
+	List<OrderRequest> orders = obj.getOrderList();
 	
 	for(int i=0; i<orders.size(); i++)
 	{

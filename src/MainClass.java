@@ -3,7 +3,7 @@ public class MainClass {
 
 	public static void main(String[] args)
 	{
-		ExecuteProcess tm = new ExecuteProcess();
+		ExecuteInputs tm = new ExecuteInputs();
 		tm.execute();
 	}
 	
