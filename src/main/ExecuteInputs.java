@@ -1,11 +1,16 @@
+package main;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
+import order.OrderRequest;
+import order.OrderRequestList;
+import theatre.Section;
+import theatre.Theatre;
+
 
 class ExecuteInputs{
-	
 	private static Theatre theatre = null;
 	private static OrderRequestList obj = null;
 
@@ -47,11 +52,11 @@ public void execute() throws ArrayIndexOutOfBoundsException
     	        {
     	        			//reading orders
     	        	        String[] in = line.split(" ");
-    	        	        OrderRequest order = obj.createOrder(in[0].toString(),Integer.parseInt(in[1].toString()));
+    	        	        obj.createOrder(in[0].toString(),Integer.parseInt(in[1].toString()));
     	        }
     	        else if(line.isEmpty())
     	        {
-    	        		//skip
+    	        		//skip the line
     	        }
     	        else
     	        {
@@ -205,6 +210,7 @@ private int findOtherOrder(int remaining_seats, int currentOrderIndex){
     return orderNo;
 }
 
+//method to find the section, with the given number of seats required for the orderRequest
 private int findSectionByAvailableSeats(List<Section> sections ,int availableSeats){
     
 	

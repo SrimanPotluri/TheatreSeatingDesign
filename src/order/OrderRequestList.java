@@ -1,10 +1,13 @@
+package order;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 //class that is responsible to create and maintain list of orderRequest
 // this is made singleton, since we just want once instance of it
 
-class OrderRequestList{
+public class OrderRequestList{
 
 private static OrderRequestList orderRequestList = null;
 private List<OrderRequest> order_list;

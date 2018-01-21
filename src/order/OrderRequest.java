@@ -1,6 +1,9 @@
+package order;
+
+
 //class that demonstrates the order
 
-class OrderRequest{
+public class OrderRequest{
 
 // data members
 private String name;

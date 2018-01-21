@@ -1,4 +1,7 @@
-class Section implements Comparable<Section>{
+package theatre;
+
+
+public class Section implements Comparable<Section>{
 
 //data members
 private int rownum;

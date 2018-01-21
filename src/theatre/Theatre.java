@@ -1,12 +1,15 @@
+package theatre;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 //making this class as a Singleton Class, so that we can create only one instance
 // this class creates section and maintains list of sections
 
-class Theatre{
+public class Theatre{
 
-//data memebers, also includes list of sections
+//data members, also includes list of sections
 private int no_of_seats;
 private int seats_unfilled;
 private List<Section> theatre_sections;

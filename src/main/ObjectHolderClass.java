@@ -1,6 +1,10 @@
+package main;
+import order.OrderRequestList;
+import theatre.Theatre;
+
 //this class is a placeholder for objects Theatre and OrderRequestList
 // this creates the objects
-public class ObjectHolderClass {
+class ObjectHolderClass {
 	
 	private Theatre theatre = null;
 	private OrderRequestList orderRequestList = null;
