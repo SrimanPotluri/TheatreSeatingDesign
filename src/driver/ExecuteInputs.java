@@ -1,8 +1,9 @@
 package driver;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
+
 
 import order.OrderRequest;
 import order.OrderRequestList;
@@ -11,71 +12,124 @@ import theatre.Theater;
 
 
 class ExecuteInputs{
-	private static Theater theatre = null;
+	private static Theater theater = null;
 	private static OrderRequestList obj = null;
+	private boolean layoutSyntax = false;
+	private boolean requestSyntax = false;
 
-public void execute() throws ArrayIndexOutOfBoundsException
+
+public ExecuteInputs(Theater t, OrderRequestList ot)
 {
-    Scanner sc = new Scanner(System.in);
-    int row = 0;
-    int total_seats = 0;
+		theater = t;
+		obj = ot;
+}
+
+//method to check theater layout syntax
+public void executeLayout(String layout)
+{
+	
+    int totalCapacity = 0, value;
+    String[] rows = layout.split(System.lineSeparator());
+    String[] sections;
     
-    //Getting the Theater and OrderRequestList instances
-    ObjectHolderClass objHolder = new ObjectHolderClass();
-    theatre = objHolder.getTheatre();
-    obj =  objHolder.getOrderRequestList();
+    for(int i=0 ; i<rows.length ; i++){
+        
+        sections = rows[i].split(" ");
+        
+        for(int j=0 ; j<sections.length ; j++){
+        
+            try{
+            		
+            		value = Integer.parseInt(sections[j]);
+                if(value <= 0)
+                {
+                	throw new NumberFormatException();
+                }
+                
+            }catch(NumberFormatException nfe){
+                
+                throw new NumberFormatException("'" + sections[j] + "'" + " is invalid section capacity. Please correct it.");
+                
+            }
+            
+            totalCapacity = totalCapacity + value;  
+            theater.createSection(i + 1, value, j + 1);
+            
+        }
 
-    System.out.println("Please Enter Theatre Layout followed by the customer orders with 'end' on last line to indicate end of input");
-    	 while(sc.hasNextLine())
-    	    {
-    	        String line = sc.nextLine();
-    	        if(line.equals("end"))
-    	        {
-    	        		//setting the total_no_of_seats on encountering "end" and breaking
-    	        		theatre.setTotalSeats(total_seats);
-    	        		break;
-    	        }
-    	        else if(!line.isEmpty() && line.split(" ")[0].matches("^[1-9][0-9]*$") && line.split(" ")[1].matches("^[1-9][0-9]*$"))
-    	        {
-    	          //reading section inputs
-    	          row++;
-    	          String[] in = line.split(" ");
-    	          for(int i=0; i<in.length; i++)
-    	          {
-    	        	  	total_seats = total_seats + Integer.parseInt(in[i].toString());
-    	            theatre.createSection(row,Integer.parseInt(in[i].toString()),i+1);
-    	          }
+    }
+    theater.setTotalSeats(totalCapacity);
+    
+    //setting the syntax valid to true
+    layoutSyntax = true;
+  
+    return;
 
-    	        }
-    	        //using java8 lambda expression .allMatch
-    	        else if(!line.isEmpty() && line.split(" ")[0].chars().allMatch(Character::isLetter) && line.split(" ")[1].matches("^[1-9][0-9]*$"))
-    	        {
-    	        			//reading orders
-    	        	        String[] in = line.split(" ");
-    	        	        obj.createOrder(in[0].toString(),Integer.parseInt(in[1].toString()));
-    	        }
-    	        else if(line.isEmpty())
-    	        {
-    	        		//skip the line
-    	        }
-    	        else
-    	        {
-    	        		//catch exceptions 
-    	        		System.out.println();
-    	        		System.out.println("Input format is not correct, Please try again");
-    	        		System.exit(0);
-    	 
-    	        }
-    	        
-    	    }//end of while
-    	 
-    	 sc.close();
-    	 
-    	
-    	    
-    	//processing the orders now and print the statuses of the orders
-    	 processOrders();
-    	 getOrdersStatus();
+}
+
+//method to check for orders input syntax
+public void executeRequests(String requestsBuffer)
+{
+	
+    String[] requests = requestsBuffer.split(System.lineSeparator());
+    
+    for(String r : requests){
+        
+        String[] rData = r.split(" ");
+        
+       
+        try{
+        
+        		int value = Integer.parseInt(rData[1]);
+        		//try catch block
+        		try {
+	            if(value <=0)
+	            {
+	            		throw new NumberFormatException("value cannot be negative");
+	            }
+        		}catch(NumberFormatException nfe){
+                    
+                    throw new NumberFormatException();
+                }
+            
+            //try catch block
+        		try {
+	            if(rData.length>2 || rData.length<2)
+	            {
+	            		throw new IllegalArgumentException("Wrong number of Arguments for " + rData[0]);
+	            }
+            }catch(IllegalArgumentException nfe){
+                
+                 throw new IllegalArgumentException();
+            }
+        		
+               
+        }catch(NumberFormatException nfe){
+            
+            throw new NumberFormatException("'" + rData[1] + "'" + " is invalid order request. Please correct it.");
+        }
+        catch(IllegalArgumentException nfe){
+            
+            throw new IllegalArgumentException("Wrong number of Arguments for " + rData[0]);
+        }
+        
+        obj.createOrder(rData[0], Integer.valueOf(rData[1]));
+       
+    }
+    //setting the syntax valid to true
+    requestSyntax = true;
+    return;
+}
+
+public void execute()
+{
+	//processing the orders now and print the statuses of the orders
+	if(layoutSyntax && requestSyntax)
+	{
+		 processOrders();
+		 getOrdersStatus();
+	}
+	 
 }
 
 //method to process the orders, it is private so that It cannot be called from outside
@@ -92,7 +146,7 @@ private void processOrders()
 			//do nothing and go to next order
 		}
         
-		else if(order.getSeatsNeeded() > theatre.getTotalSeats())
+		else if(order.getSeatsNeeded() > theater.getTotalSeats())
 		{
 			//it is not possible to handle the order
 			order.setStatus(order.getName() + " Sorry, we can't handle your party.");
@@ -101,7 +155,7 @@ private void processOrders()
 		else
 		{
 			//get sections
-			List<Section> sections = theatre.getSectionList();
+			List<Section> sections = theater.getSectionList();
 			//iterating through all sections 
 			for(int j=0; j<sections.size(); j++)
 			{
@@ -111,7 +165,7 @@ private void processOrders()
 				       order.setRowAllotted(section.getRowNum());
 				       order.setSectionAllotted(section.getSectionNum());
 				       section.setRemainingSeats(section.getRemainingSeats() - order.getSeatsNeeded());
-				       theatre.setRemainingSeats(theatre.getRemainingSeats()- order.getSeatsNeeded());
+				       theater.setRemainingSeats(theater.getRemainingSeats()- order.getSeatsNeeded());
 				       order.setStatus(order.getName() + " Row " + order.getRowAllotted() + " Section " + order.getSectionAllotted());
 				       break;             
 				 }
@@ -124,7 +178,7 @@ private void processOrders()
 	                        order.setRowAllotted(section.getRowNum());
 	                        order.setSectionAllotted(section.getSectionNum());
 	                        section.setRemainingSeats(section.getRemainingSeats() - order.getSeatsNeeded());
-	                        theatre.setRemainingSeats(theatre.getRemainingSeats()- order.getSeatsNeeded());
+	                        theater.setRemainingSeats(theater.getRemainingSeats()- order.getSeatsNeeded());
 	                        order.setStatus(order.getName() + " Row " + order.getRowAllotted() + " Section " + order.getSectionAllotted());
 	                        
 	                        //setting the status of the complement order, since we filled this with remaining seats
@@ -132,7 +186,7 @@ private void processOrders()
 	                        order_complement.setRowAllotted(section.getRowNum());
 	                        order_complement.setSectionAllotted(section.getSectionNum());
 	                        section.setRemainingSeats(section.getRemainingSeats() - order_complement.getSeatsNeeded());
-	                        theatre.setRemainingSeats(theatre.getRemainingSeats() - order_complement.getSeatsNeeded());
+	                        theater.setRemainingSeats(theater.getRemainingSeats() - order_complement.getSeatsNeeded());
 	                        order_complement.setStatus(order_complement.getName() + " Row " + order_complement.getRowAllotted() + " Section " + order_complement.getSectionAllotted());
 	                        
 	                        break;
@@ -148,7 +202,7 @@ private void processOrders()
 		                            order.setRowAllotted(perferctSection.getRowNum());
 		                            order.setSectionAllotted(perferctSection.getSectionNum());
 		                            perferctSection.setRemainingSeats(perferctSection.getRemainingSeats() - order.getSeatsNeeded());
-		                            theatre.setRemainingSeats(theatre.getRemainingSeats() - order.getSeatsNeeded());
+		                            theater.setRemainingSeats(theater.getRemainingSeats() - order.getSeatsNeeded());
 		                            order.setStatus(order.getName() + " Row " + order.getRowAllotted() + " Section " + order.getSectionAllotted());
 		                            break;
 		                            
@@ -157,7 +211,7 @@ private void processOrders()
 		                            order.setRowAllotted(section.getRowNum());
 		                            order.setSectionAllotted(section.getSectionNum());
 		                            section.setRemainingSeats(section.getRemainingSeats() - order.getSeatsNeeded());
-		                            theatre.setRemainingSeats(theatre.getRemainingSeats() - order.getSeatsNeeded());
+		                            theater.setRemainingSeats(theater.getRemainingSeats() - order.getSeatsNeeded());
 		                            order.setStatus(order.getName() + " Row " + order.getRowAllotted() + " Section " + order.getSectionAllotted());
 		                            break;
 		                            
@@ -224,7 +278,8 @@ private int findSectionByAvailableSeats(List<Section> sections ,int availableSea
     
     Comparator<Section> byAvailableSeats = new Comparator<Section>() {
         
-        public int compare(Section o1, Section o2) {
+        @Override
+		public int compare(Section o1, Section o2) {
             
             return o1.getRemainingSeats() - o2.getRemainingSeats();
             
