@@ -11,7 +11,7 @@ import theatre.Theater;
 
 public class MainClass {
 	
-	//private data memebers
+	//private data members
 	private static Theater theater = null;
 	private static OrderRequestList orderRequestList = null;
 
@@ -28,7 +28,7 @@ public class MainClass {
 		 	String line;
 	        StringBuilder layout = new StringBuilder();
 	        StringBuilder ticketRequests = new StringBuilder();
-	        boolean isLayoutFinished = false;
+	        boolean isLayoutComplete = false;
 	        
 	        System.out.println("Please enter Layout, order requests seperated by an empty line and then enter 'end'.");
 	        System.out.println("Assumptions/Rules for input:");
@@ -43,12 +43,12 @@ public class MainClass {
 	            
 	            if(line.length() == 0){
 	                
-	                isLayoutFinished = true;
+	                isLayoutComplete = true;
 	                continue;
 	                
 	            }
 	            
-	            if(!isLayoutFinished){
+	            if(!isLayoutComplete){
 	                
 	                layout.append(line + System.lineSeparator());
 	                

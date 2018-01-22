@@ -11,7 +11,7 @@ import theatre.Section;
 import theatre.Theater;
 
 
-class ExecuteInputs{
+public class ExecuteInputs{
 	private static Theater theater = null;
 	private static OrderRequestList obj = null;
 	private boolean layoutSyntax = false;
@@ -118,6 +118,7 @@ public void executeRequests(String requestsBuffer)
     }
     //setting the syntax valid to true
     requestSyntax = true;
+    
     return;
 }
 

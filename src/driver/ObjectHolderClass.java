@@ -4,7 +4,7 @@ import theatre.Theater;
 
 //this class is a placeholder for objects Theatre and OrderRequestList
 // this creates the objects
-class ObjectHolderClass {
+public class ObjectHolderClass {
 	
 	private Theater theatre = null;
 	private OrderRequestList orderRequestList = null;
