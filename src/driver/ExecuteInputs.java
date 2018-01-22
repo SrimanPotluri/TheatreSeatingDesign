@@ -318,6 +318,9 @@ private void getOrdersStatus()
 {
 	List<OrderRequest> orders = obj.getOrderList();
 	
+	
+	System.out.println("\nPrinting the status of all the orders\n");
+	
 	for(int i=0; i<orders.size(); i++)
 	{
 		System.out.println(orders.get(i).getStatus());
