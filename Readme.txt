@@ -60,5 +60,10 @@ INSTRUCTIONS TO RUN:
 4. Enter input to see the output
 
 
+USED JRE AND JUNIT VERSIONS:
+
+JRE: 1.8
+JUNIT: 4
+IDE: ECLIPSE OXYGEN
 
 
