@@ -52,10 +52,13 @@ Brown Row 4  Section 2
 Miller Call to split party.
 ```
 
+(***Runnable Jar is available in ProjectRunnableJar folder***)
+
 INSTRUCTIONS TO RUN:
 
 1. In terminal, check if java is installed.
-2. Navigate to folder that you saved the runnable jar file to
+2. Download jar from ProjectRunnableJar folder here
+3. Navigate to the jar that you saved from terminal
 3. Run java -jar TheatreSeatingDesign.jar 
 4. Enter input to see the output
 
